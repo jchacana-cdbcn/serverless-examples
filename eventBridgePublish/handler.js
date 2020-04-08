@@ -6,7 +6,8 @@ const handler = async (event, context, callback) => {
   const userId = event.pathParameters.user_id;
   
   const eventBridge = new aws.EventBridge({apiVersion: '2015-10-07'}); 
-  const rsp = await eventBridge.putEvents({
+  
+  await eventBridge.putEvents({
     Entries: [{
       Source: 'acme.newsletter.campaign',
       DetailType: 'UserSignUp',
@@ -15,21 +16,17 @@ const handler = async (event, context, callback) => {
   }, (err, data) => {
     if(err) console.log("ERROR", err.stack)
     else console.log(data)
-  }).promise().then((data) => {
-    
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(
-        {"success": "event published"},
-        null,
-        2
-      )
-    }
-    console.log(data)
-    return callback(null, response)
-  }, (err) => {
-    console.log(err)
   })
+    
+  const response = {
+    statusCode: 200,
+    body: JSON.stringify(
+      {"success": "event published"},
+      null,
+      2
+    )
+  }
+  return callback(null, response)
 }
 
 const getPosts = handler
