@@ -6,12 +6,12 @@ const handler = async (event, context, callback) => {
   const userId = event.pathParameters.user_id;
   
   const eventBridge = new aws.EventBridge({apiVersion: '2015-10-07'}); 
-  
+  const obj = {data: userId}
   await eventBridge.putEvents({
     Entries: [{
-      Source: 'acme.newsletter.campaign',
-      DetailType: 'UserSignUp',
-      Detail: `{"data": "${userId}"}`
+      Source: 'codurance.event', //<-- CHANGE ME for codurance.post
+      DetailType: 'CoduranceEvent', //<-- CHANGE ME for Post
+      Detail: JSON.stringify(obj)
     }]
   }, (err, data) => {
     if(err) console.log("ERROR", err.stack)
@@ -29,6 +29,6 @@ const handler = async (event, context, callback) => {
   return callback(null, response)
 }
 
-const getPosts = handler
+const publish = handler
 
-module.exports = { getPosts }
+module.exports = { publish }

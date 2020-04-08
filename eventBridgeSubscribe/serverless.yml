@@ -19,10 +19,10 @@ provider:
         - "arn:aws:dynamodb:${self:provider.region}:*:table/posts"
 
 functions:
-  getPosts:
-    handler: handler.getPosts
+  sub:
+    handler: handler.sub
     events:
       - eventBridge:
           pattern:
             source:
-              - acme.newsletter.campaign  
+              - codurance.event  

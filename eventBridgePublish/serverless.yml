@@ -24,8 +24,8 @@ provider:
         - "*"
 
 functions:
-  getPosts:
-    handler: handler.getPosts
+  publish:
+    handler: handler.publish
     events:
       - http:
           path: post/{user_id}

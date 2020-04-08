@@ -38,6 +38,6 @@ const handler = async (event, context, callback) => {
 }
 
 // Let's "middyfy" our handler, then we will be able to attach middlewares to it
-const getPosts = middy(handler).use(cors()) // Adds CORS headers to responses
+const sub = middy(handler).use(cors()) // Adds CORS headers to responses
 
-module.exports = { getPosts }
+module.exports = { sub }
