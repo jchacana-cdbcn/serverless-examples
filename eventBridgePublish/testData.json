@@ -1,0 +1,7 @@
+{
+  "body": {
+    "dateTime": 1549312452000,
+    "postId": 102030,
+    "text": "Fake post done via CLI while backend is under construction"
+  }
+}

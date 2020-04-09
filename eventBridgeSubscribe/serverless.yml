@@ -25,4 +25,5 @@ functions:
       - eventBridge:
           pattern:
             source:
-              - codurance.event  
+              - codurance.post  
+  

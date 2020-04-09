@@ -35,3 +35,10 @@ functions:
             parameters:
               paths:
                 user_id: true
+  createPost:
+    handler: handler.createPost
+    events:
+      - http:
+          path: post
+          method: post
+          cors: true
