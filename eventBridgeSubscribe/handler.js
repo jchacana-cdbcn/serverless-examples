@@ -4,24 +4,34 @@ const { cors } = require('middy/middlewares')
 const aws = require('aws-sdk')
 const parse = aws.DynamoDB.Converter.output;
 const ddb = new aws.DynamoDB({ apiVersion: '2012-08-10'})
+const docClient = new aws.DynamoDB.DocumentClient()
 
 const handler = async (event, context, callback) => {
   console.log(event)
-  var userId = event.detail.data
+  var body = JSON.stringify(event.detail)
+  var realBody = docClient.createSet([body])
+  console.log(realBody)
   var params = {
     TableName: 'posts',
     Key: {
-      'userId': { S: userId}
+      userId: "1234"
     },
-    ProjectionExpression: 'posts'
+    UpdateExpression: "SET #posts  = list_append(#posts, :post)",
+    ExpressionAttributeNames: { "#posts" : "posts"},
+    ExpressionAttributeValues: {":post": [event.detail]},
+    ReturnValues : "UPDATED_NEW"
+    
   }
 
   return await new Promise((resolve, reject) => {
-    ddb.getItem(params, function(err, data) {
+    
+    docClient.update(params, function(err, data) {
+      console.log("@ docClient update")
       if (err) {
         console.log("Error", err)
         reject()
       } else {
+        console.log("I got a response ")
         const response = {
           statusCode: 200,
           body: JSON.stringify(
